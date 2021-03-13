@@ -1,18 +1,7 @@
 <?php
 
-//dice a livello dello script che gli errori verranno mostrati e che non verranno loggati
-ini_set("display_errors", "1");
-ini_set("log_errors", "0");
-
-$host = 'localhost';
-$db = 'prenotazioni';
-$user = 'root';
-$pass = '';
-
-//stringa di connessione
-$dsn = "mysql:host=$host;dbname=$db;";
-
-$pdo = new PDO($dsn, $user, $pass);
+//include il file config.php, che ha al suo interno il collegamento al db
+include_once "config.php";
 
 //variabili valorizzate tramite POST
 $codice_fiscale = $_POST['codice'];
@@ -32,6 +21,12 @@ $stmt->execute(
     ]
 );
 
+//crea un header rimandato al browser, che gli dice di mandare la sua richiesta a lista_prenotazioni
+//Ridirige il browser verso la pagina indicata nella location
+
+//chiama la pagina della lista delle prenotazioni
+header( 'Location: lista_prenotazioni.php');
+exit(0);
 
 
 

@@ -6,9 +6,10 @@ include_once "config.php";
 //variabili valorizzate tramite POST
 $codice_fiscale = $_POST['codice'];
 $giorno = $_POST['giorno'];
+$codice_univoco = $_POST['codice_univoco'];
 
 //Query di inserimento preparata
-$sql = "INSERT INTO prenotazioni VALUES(null, :codice_fiscale, :giorno)";
+$sql = "INSERT INTO prenotazioni VALUES(null, :codice_fiscale, :giorno,:codice_univoco )";
 
 //Inviamo la query coon i segnaposti al database che la tiene in pancia
 $stmt = $pdo->prepare($sql);
@@ -17,7 +18,8 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute(
     [
         'codice_fiscale' => $codice_fiscale,
-        'giorno' => $giorno
+        'giorno' => $giorno,
+        'codice_univoco' => $codice_univoco
     ]
 );
 

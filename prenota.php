@@ -3,6 +3,8 @@
 //include il file config.php, che ha al suo interno il collegamento al db
 include_once "config.php";
 
+include 'phpqrcode/qrlib.php';
+
 //variabili valorizzate tramite POST
 $codice_fiscale = $_POST['codice'];
 $giorno = $_POST['giorno'];
@@ -11,7 +13,18 @@ function generateRandomString($length = 10) {
     return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
 }
 
-$codice_univoco = generateRandomString();
+$codice_univoco = QRcode::png(generateRandomString());
+
+$path = 'prenotazioni/';
+$file = $path.uniqid().".png";
+
+$ecc = 'L';
+$pixel_Size = 10;
+$frame_Size = 10;
+
+// Generates QR Code and Stores it in directory given
+QRcode::png($codice_univoco, $file, $ecc, $pixel_Size, $frame_Size);
+
 
 //Query di inserimento preparata
 $sql = "INSERT INTO prenotazioni VALUES(null, :codice_fiscale, :giorno,:codice_univoco )";
@@ -42,9 +55,12 @@ $result = $stmt->fetchAll();
     //crea un header rimandato al browser, che gli dice di mandare la sua richiesta a lista_prenotazioni
     //Ridirige il browser verso la pagina indicata nella location
 
+
 //chiama la pagina della lista delle prenotazioni
 //header( 'Location: lista_prenotazioni.php');
-    echo "<h2> </br>Il tuo codice prenotazione è: $codice_univoco</h2>";
+echo "<h2> </br>Il tuo codice prenotazione è: $codice_univoco </h2>";
+
+
 //exit(0);
 }
 else
@@ -52,8 +68,6 @@ else
     echo " <center><h2> E' stato raggiunto il numero massimo di prenotazioni per il giorno selezionato </br></center></h2>";
     echo '<a href= "prenota.html"> <center> Ritorna alla home </center></a>';
 }
-
-
 
 
 

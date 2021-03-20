@@ -6,7 +6,12 @@ include_once "config.php";
 //variabili valorizzate tramite POST
 $codice_fiscale = $_POST['codice'];
 $giorno = $_POST['giorno'];
-$codice_univoco = $_POST['codice_univoco'];
+
+function generateRandomString($length = 10) {
+    return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+}
+
+$codice_univoco = generateRandomString();
 
 //Query di inserimento preparata
 $sql = "INSERT INTO prenotazioni VALUES(null, :codice_fiscale, :giorno,:codice_univoco )";
@@ -27,8 +32,10 @@ $stmt->execute(
 //Ridirige il browser verso la pagina indicata nella location
 
 //chiama la pagina della lista delle prenotazioni
-header( 'Location: lista_prenotazioni.php');
-exit(0);
+//header( 'Location: lista_prenotazioni.php');
+//exit(0);
+
+echo "<h2> </br>Il tuo codice prenotazione è: $codice_univoco</h2>";
 
 
 

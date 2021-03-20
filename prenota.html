@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Prenotazioni</title>
+    <style>
+        a:link, a:visited {
+            background-color: #f44336;
+            color: white;
+            padding: 14px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        a:hover, a:active {
+            background-color: red;
+        }
+
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
     <script> function casuale(length) {
         var result           = '';
@@ -24,8 +39,6 @@
          <label for="giorno">Giorno</label>
          <input type="date" id="giorno" placeholder="Giorno scelto" name="giorno"/>
             <input type="submit"  value = "Invia la tua richiesta" >
-
-
 
      </fieldset>
     </form>

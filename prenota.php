@@ -16,26 +16,45 @@ $codice_univoco = generateRandomString();
 //Query di inserimento preparata
 $sql = "INSERT INTO prenotazioni VALUES(null, :codice_fiscale, :giorno,:codice_univoco )";
 
-//Inviamo la query coon i segnaposti al database che la tiene in pancia
-$stmt = $pdo->prepare($sql);
 
-//Inviamo i dati concreti (con vettore) che verranno messi al posto del segnaposto
-$stmt->execute(
-    [
-        'codice_fiscale' => $codice_fiscale,
-        'giorno' => $giorno,
-        'codice_univoco' => $codice_univoco
-    ]
-);
+$sql2 = "Select count(*) as n_prenotazioni from prenotazioni where '$giorno' = prenotazioni.giorno";
 
-//crea un header rimandato al browser, che gli dice di mandare la sua richiesta a lista_prenotazioni
-//Ridirige il browser verso la pagina indicata nella location
+$stmt = $pdo->query($sql2);
+
+$result = $stmt->fetchAll();
+
+
+    if($result[0]['n_prenotazioni'] < 2) {
+
+    //Inviamo la query coon i segnaposti al database che la tiene in pancia
+    $stmt = $pdo->prepare($sql2);
+
+    //Inviamo i dati concreti (con vettore) che verranno messi al posto del segnaposto
+    $stmt->execute(
+        [
+            'codice_fiscale' => $codice_fiscale,
+            'giorno' => $giorno,
+            'codice_univoco' => $codice_univoco
+        ]
+    );
+
+
+    //crea un header rimandato al browser, che gli dice di mandare la sua richiesta a lista_prenotazioni
+    //Ridirige il browser verso la pagina indicata nella location
 
 //chiama la pagina della lista delle prenotazioni
 //header( 'Location: lista_prenotazioni.php');
+    echo "<h2> </br>Il tuo codice prenotazione è: $codice_univoco</h2>";
 //exit(0);
+}
+else
+{
+    echo " <center><h2> E' stato raggiunto il numero massimo di prenotazioni per il giorno selezionato </br></center></h2>";
+    echo '<a href= "prenota.html"> <center> Ritorna alla home </center></a>';
+}
 
-echo "<h2> </br>Il tuo codice prenotazione è: $codice_univoco</h2>";
+
+
 
 
 

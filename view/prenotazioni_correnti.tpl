@@ -9,7 +9,7 @@
 <center>
     <h1>Portale prenotazioni</h1>
 </center>
-<h2> Lista delle prenotazioni </h2>
+<h2> <center> Prenotazioni di oggi </center> </h2>
 </br>
 <ul>
     <?php foreach($result as $row): ?>

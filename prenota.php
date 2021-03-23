@@ -15,15 +15,10 @@ function generateRandomString($length = 10) {
 
 $codice_univoco = QRcode::png(generateRandomString());
 
-$path = 'prenotazioni/';
-$file = $path.uniqid().".png";
 
-$ecc = 'L';
-$pixel_Size = 10;
-$frame_Size = 10;
 
 // Generates QR Code and Stores it in directory given
-QRcode::png($codice_univoco, $file, $ecc, $pixel_Size, $frame_Size);
+QRcode::png($codice_univoco,'qrcode.png' , 1, 4, 2);
 
 
 //Query di inserimento preparata

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prenotazioni</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+</head>
+<body>
+<h1>Portale prenotazioni</h1>
+<form  action="numero_prenotazioni.php" method="post">
+    <fieldset>
+        <legend>Inserisci fra quali date vedere il numero di prenotazioni</legend>
+        <label for="giorno_iniziale">Data inizio</label>
+        <input type="date" id="giorno_iniziale" placeholder="Data di inizio" name="giorno_iniziale" />
+        <label for="giorno_finale">Data fine</label>
+        <input type="date" id="giorno_finale" placeholder="Data finale" name="giorno_finale"/>
+        <input type="submit"  value = "Invia la tua richiesta" >
+
+    </fieldset>
+</form>
+</body>
+</html>

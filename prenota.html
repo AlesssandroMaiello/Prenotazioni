@@ -16,16 +16,17 @@
 </head>
 <body>
 <h1>Portale prenotazioni</h1>
-<form  action="prenota.php" method="post">
+<form action="prenota.php" method="POST">
     <fieldset>
-        <legend>Inserisci la prenotazione </legend>
-        <label for="codice">Codice fiscale</label>
-        <input type="text" id="codice" placeholder="Codice_fiscale" name="codice" />
+        <legend>Inserisci la prenotazione</legend>
+        <label for="codice_fiscale">Codice</label>
+        <input type="text" id="codice_fiscale" placeholder="Codice fiscale" name="codice_fiscale">
         <label for="giorno">Giorno</label>
-        <input type="date" id="giorno" placeholder="Giorno scelto" name="giorno"/>
-        <input type="button" onclick="casuale(10)" value="Codice univoco">
-        <p id="casuale"></p>
-        <input type="submit"  value = "Invia la tua richiesta" >
+        <input type="date" id="giorno" placeholder="Giorno scelto" name="giorno">
+        <input type="submit" value="Invia la tua richiesta">
+    </fieldset>
+</form>
+
 
 
 

@@ -1,73 +1,77 @@
 <?php
 
-//include il file config.php, che ha al suo interno il collegamento al db
+require 'phpqrcode/qrlib.php';
 include_once "config.php";
 
-include 'phpqrcode/qrlib.php';
-
-//variabili valorizzate tramite POST
-$codice_fiscale = $_POST['codice'];
+// variabili valorizzate tramite POST
+$codice_fiscale = $_POST['codice_fiscale'];
 $giorno = $_POST['giorno'];
+$codice = strtoupper(uniqid());
+$headerMsg = array('class'=>'error', 'message'=>'Prenotazione fallita');
+$firstLine = "Sono state effettuate troppe prenotazioni per questa giornata, scegli un altro giorno";
 
-function generateRandomString($length = 10) {
-    return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
-}
+// query di inserimento preparata
+$sql = "INSERT INTO prenotazioni VALUES (NULL, :codice_fiscale, :giorno, :codice)";
 
-$codice_univoco = generateRandomString();
+$sql_numero= "SELECT COUNT(*) AS n_prenotazioni FROM prenotazioni WHERE prenotazioni.giorno = '$giorno'";
 
+$n_prenotazioni = $pdo->query($sql_numero)->fetchAll()[0]["n_prenotazioni"];
 
+if ($n_prenotazioni <= 5) {
+    $headerMsg['class'] = 'success';
+    $headerMsg['message'] = 'Prenotazione avvenuta con successo';
+    // inviamo la query al database che la tiene pronta
+    $stmt = $pdo->prepare($sql);
 
-// Generates QR Code and Stores it in directory given
-//QRcode::png($codice_univoco,'qrcode.png' , 1, 4, 2);
-
-
-//Query di inserimento preparata
-$sql = "INSERT INTO prenotazioni VALUES(null, :codice_fiscale, :giorno,:codice_univoco )";
-
-
-$sql2 = "Select count(*) as n_prenotazioni from prenotazioni where  prenotazioni.giorno = '$giorno'";
-
-$stmt = $pdo->query($sql2);
-
-$result = $stmt->fetchAll();
-
-
-    if($result[0]['n_prenotazioni'] < 2) {
-
-    //Inviamo la query coon i segnaposti al database che la tiene in pancia
-    $stmt = $pdo->prepare($sql2);
-
-    //Inviamo i dati concreti (con vettore) che verranno messi al posto del segnaposto
+    // inviamo i dati concreti che verranno messi al posto dei segnaposto
     $stmt->execute(
         [
             'codice_fiscale' => $codice_fiscale,
             'giorno' => $giorno,
-            'codice_univoco' => $codice_univoco
+            'codice' => $codice
         ]
     );
-
-
-    //crea un header rimandato al browser, che gli dice di mandare la sua richiesta a lista_prenotazioni
-    //Ridirige il browser verso la pagina indicata nella location
-
-
-//chiama la pagina della lista delle prenotazioni
-//header( 'Location: lista_prenotazioni.php');
-
-echo "<h2> </br>Il tuo codice prenotazione è: $codice_univoco </h2>";
-
-
-//exit(0);
-}
-else
-{
-
-    echo " <center><h2> E' stato raggiunto il numero massimo di prenotazioni per il giorno selezionato </br></center></h2>";
-    echo '<a href= "prenota.html"> <center> Ritorna alla home </center></a>';
+    // $firstLine = "Il codice della tua prenotazione è il seguente: $codice";
+    $firstLine = "QR Code contenente il codice della tua prenotazione:";
+    $QRCode = QRCodeGenerator($codice);
 }
 
+function QRCodeGenerator($data) {
+    // ECC Level, livello di correzione dell'errore (valori possibili in ordine crescente: L,M,Q,H - da low a high)
+    $errorCorrectionLevel = 'L';
 
+    // Matrix Point Size, dimensione dei punti della matrice (da 1 a 10)
+    $matrixPointSize = 4;
 
+    // Il File da salvare (deve essere salvato in una directory scrivibile dal web server)
+    $filename = 'qrcode'.md5($data.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
 
+    // Generiamo il QRcode in formato immagine PNG
+    QRcode::png($data, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    return $filename;
+}
+
+function QRCodeGeneratorSimple($data) {
+    QRcode::png($data, 'qrcode.png');
+    return 'qrcode.png';
+}
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prenotazione</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="content">
+    <h1 class="<?php echo $headerMsg['class'] ?>"><?php echo $headerMsg['message'] ?></h1>
+    <p><?php echo $firstLine ?></p>
+    <img src="<?php echo $QRCode ?>" alt="QR Code" width="250px"/>
+</div>
+</body>
+</html>
 
 

@@ -1137,7 +1137,17 @@
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <key id="360" parent="355" name="PRIMARY">
+    <column id="360" parent="355" name="eseguito">
+      <Position>5</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0</DefaultExpression>
+    </column>
+    <column id="361" parent="355" name="note">
+      <Position>6</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <key id="362" parent="355" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

@@ -10,14 +10,39 @@ $codice = strtoupper(uniqid());
 $headerMsg = array('class'=>'error', 'message'=>'Prenotazione fallita');
 $firstLine = "Sono state effettuate troppe prenotazioni per questa giornata, scegli un altro giorno";
 
+function QRCodeGenerator($data) {
+    // ECC Level, livello di correzione dell'errore (valori possibili in ordine crescente: L,M,Q,H - da low a high)
+    $errorCorrectionLevel = 'L';
+
+    // Matrix Point Size, dimensione dei punti della matrice (da 1 a 10)
+    $matrixPointSize = 4;
+
+    // Il File da salvare (deve essere salvato in una directory scrivibile dal web server)
+    $filename = 'qrcode'.md5($data.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
+
+    // Generiamo il QRcode in formato immagine PNG
+    QRcode::png($data, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
+
+    return $filename;
+}
+
+
+
+function QRCodeGeneratorSimple($data) {
+    QRcode::png($data, 'qrcode.png');
+    return 'qrcode.png';
+}
+
 // query di inserimento preparata
 $sql = "INSERT INTO prenotazioni VALUES (NULL, :codice_fiscale, :giorno, :codice)";
 
 $sql_numero= "SELECT COUNT(*) AS n_prenotazioni FROM prenotazioni WHERE prenotazioni.giorno = '$giorno'";
 
+$sql2 = "SELECT * from n_prenotazioni where n_prenotazioni <=3 ";
+
 $n_prenotazioni = $pdo->query($sql_numero)->fetchAll()[0]["n_prenotazioni"];
 
-if ($n_prenotazioni <= 5) {
+if ($n_prenotazioni <= 3) {
     $headerMsg['class'] = 'success';
     $headerMsg['message'] = 'Prenotazione avvenuta con successo';
     // inviamo la query al database che la tiene pronta
@@ -36,26 +61,7 @@ if ($n_prenotazioni <= 5) {
     $QRCode = QRCodeGenerator($codice);
 }
 
-function QRCodeGenerator($data) {
-    // ECC Level, livello di correzione dell'errore (valori possibili in ordine crescente: L,M,Q,H - da low a high)
-    $errorCorrectionLevel = 'L';
 
-    // Matrix Point Size, dimensione dei punti della matrice (da 1 a 10)
-    $matrixPointSize = 4;
-
-    // Il File da salvare (deve essere salvato in una directory scrivibile dal web server)
-    $filename = 'qrcode'.md5($data.'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-
-    // Generiamo il QRcode in formato immagine PNG
-    QRcode::png($data, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
-
-    return $filename;
-}
-
-function QRCodeGeneratorSimple($data) {
-    QRcode::png($data, 'qrcode.png');
-    return 'qrcode.png';
-}
 
 ?>
 

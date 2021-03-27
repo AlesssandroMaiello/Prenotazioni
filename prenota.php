@@ -13,19 +13,19 @@ function generateRandomString($length = 10) {
     return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
 }
 
-$codice_univoco = QRcode::png(generateRandomString());
+$codice_univoco = generateRandomString();
 
 
 
 // Generates QR Code and Stores it in directory given
-QRcode::png($codice_univoco,'qrcode.png' , 1, 4, 2);
+//QRcode::png($codice_univoco,'qrcode.png' , 1, 4, 2);
 
 
 //Query di inserimento preparata
 $sql = "INSERT INTO prenotazioni VALUES(null, :codice_fiscale, :giorno,:codice_univoco )";
 
 
-$sql2 = "Select count(*) as n_prenotazioni from prenotazioni where '$giorno' = prenotazioni.giorno";
+$sql2 = "Select count(*) as n_prenotazioni from prenotazioni where  prenotazioni.giorno = '$giorno'";
 
 $stmt = $pdo->query($sql2);
 
@@ -53,6 +53,7 @@ $result = $stmt->fetchAll();
 
 //chiama la pagina della lista delle prenotazioni
 //header( 'Location: lista_prenotazioni.php');
+
 echo "<h2> </br>Il tuo codice prenotazione è: $codice_univoco </h2>";
 
 
@@ -60,6 +61,7 @@ echo "<h2> </br>Il tuo codice prenotazione è: $codice_univoco </h2>";
 }
 else
 {
+
     echo " <center><h2> E' stato raggiunto il numero massimo di prenotazioni per il giorno selezionato </br></center></h2>";
     echo '<a href= "prenota.html"> <center> Ritorna alla home </center></a>';
 }

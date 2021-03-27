@@ -15,17 +15,21 @@
     </script>
 </head>
 <body>
-    <h1>Portale prenotazioni</h1>
-    <form  action="prenota.php" method="post">
-        <fieldset>
-         <legend>Inserisci la prenotazione </legend>
-         <label for="codice">Codice fiscale</label>
-         <input type="text" id="codice" placeholder="Codice_fiscale" name="codice" />
-         <label for="giorno">Giorno</label>
-         <input type="date" id="giorno" placeholder="Giorno scelto" name="giorno"/>
-            <input type="submit"  value = "Invia la tua richiesta" >
+<h1>Portale prenotazioni</h1>
+<form  action="prenota.php" method="post">
+    <fieldset>
+        <legend>Inserisci la prenotazione </legend>
+        <label for="codice">Codice fiscale</label>
+        <input type="text" id="codice" placeholder="Codice_fiscale" name="codice" />
+        <label for="giorno">Giorno</label>
+        <input type="date" id="giorno" placeholder="Giorno scelto" name="giorno"/>
+        <input type="button" onclick="casuale(10)" value="Codice univoco">
+        <p id="casuale"></p>
+        <input type="submit"  value = "Invia la tua richiesta" >
 
-     </fieldset>
-    </form>
+
+
+    </fieldset>
+</form>
 </body>
 </html>

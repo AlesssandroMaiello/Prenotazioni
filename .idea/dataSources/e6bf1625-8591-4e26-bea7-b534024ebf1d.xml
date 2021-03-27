@@ -1131,7 +1131,13 @@
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="359" parent="355" name="PRIMARY">
+    <column id="359" parent="355" name="codice_univoco">
+      <Position>4</Position>
+      <DataType>varchar(6)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="360" parent="355" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

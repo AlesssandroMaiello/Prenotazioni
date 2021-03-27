@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Prenotazioni</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
-</head>
-<body>
-    <h1>Resoconto Prenotazioni </h1>
-<h2> Prenotazioni di oggi </h2>
+<?php $this->layout('main',['argomento' => 'Numero di prenotazioni']); ?>
 
     <table>
         <thead> <td> Giorno </td> <td> Numero prenotazioni</td>
@@ -21,6 +12,4 @@
     <?php endforeach ?>
         </tbody>
     </table>
-
-</body>
-</html>
+    <?php $this->layout('main',['argomento' => 'lista delle prenotazioni']); ?>

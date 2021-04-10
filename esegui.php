@@ -10,7 +10,7 @@ use League\Plates\Engine;
 $templates = new Engine('./view','tpl');
 
 //Variabili valorizzate tramite POST
-$codice_univoco = $_POST['codice'];
+$codice_univoco = $_POST['codice_univoco'];
 $note = $_POST['note'];
 
 //Controllo sul numero di persone per giorno

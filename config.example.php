@@ -16,3 +16,8 @@ $pass = 'your_password';
 $dsn = "mysql:host=$host;dbname=$db;";
 
 $pdo = new PDO($dsn, $user, $pass);
+
+//lancia eccezione il programma piuttosto che mostrare il fatal error
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+session_star();

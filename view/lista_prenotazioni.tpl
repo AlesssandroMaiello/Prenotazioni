@@ -6,6 +6,7 @@
 <h1>Portale prenotazioni</h1>
 
 
+    <h1>Ciao <?=$username?></h1>
     <table>
     <?php foreach($result as $row): ?>
 

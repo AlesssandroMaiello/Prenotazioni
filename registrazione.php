@@ -29,13 +29,17 @@ if($password === $conferma_password )
 
         ]
     );
+    echo $templates->render('registrazione',
+        [
+            'username' => $username,
+            'password' => $password_cifrata
+
+        ]);
 
 }
+else{
 
-echo $templates->render('autenticazione',
-    [
-        'username' => $username,
-        'password' => $password_cifrata
+    echo $templates->render('password_diverse', "");
+}
 
-    ]);
 

@@ -37,6 +37,7 @@ $stmt = $pdo->prepare($sql);
     //la password è corretta
     if(password_verify($password, $pass_hash))
     {
+        $_SESSION['username'] = $username;
         echo $templates->render('utente_autenticato', ['username' => $username]);
     }
     //la password è sbagliata
